@@ -109,7 +109,7 @@ _set_overrides() {
   _set_override \
     "target" \
     "network" \
-    "$(_get_network)"
+    "_get_network"
   _set_override \
     "target" \
     "device" \
