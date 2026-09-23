@@ -135,16 +135,14 @@ _usage() {
       -d '' \
       _usage_text << \
         ENDUSAGETEXT || true
-Returns an host address for given network on a given network device
+
+Displays text on an Android device.
+
 usage:
   ${app_name}
     [options]
-    <command>
-    <host>
-    (<address>)
-  commands:
-     get                  Get address for an host
-     set                  Set address for an host
+    <text>
+
   options:
      -d <device>          Specify network device
                           Default: '${target_device}'
@@ -158,6 +156,7 @@ usage:
      -h                   This message.
      -c                   Enable color output
      -v                   Enable verbose output
+
 ENDUSAGETEXT
   _printf \
     '%s\n' \
@@ -243,7 +242,7 @@ shift \
   ))
 if (( $# < 2 )); then
   _msg=(
-    "No command given."
+    "No input text given."
   )
   _msg_error \
     "${_msg[*]}" \
