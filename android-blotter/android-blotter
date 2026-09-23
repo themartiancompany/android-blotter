@@ -72,23 +72,23 @@ _android_blotter() {
     activity-focused)"
   echo \
     "${_focused_activity}"
-  if [[ "${_command}" == "get" ]]; then
-    _args=(
-      "${_target_host}"
-      "${_target_device}"
-      "${_target_network}"
-      "${_target_gateway}"
-      )
-  elif [[ "${_command}" == "set" ]]; then
-    _args=(
-      "${_target_host}"
-      "${_target_device}"
-      "${_target_address}"
-      "${_global_setting}"
-    )
-  fi
-  "_${_command}_host_address" \
-    "${_args[@]}"
+  # if [[ "${_command}" == "get" ]]; then
+  #   _args=(
+  #     "${_target_host}"
+  #     "${_target_device}"
+  #     "${_target_network}"
+  #     "${_target_gateway}"
+  #     )
+  # elif [[ "${_command}" == "set" ]]; then
+  #   _args=(
+  #     "${_target_host}"
+  #     "${_target_device}"
+  #     "${_target_address}"
+  #     "${_global_setting}"
+  #   )
+  # fi
+  # "_${_command}_host_address" \
+  #   "${_args[@]}"
 }
 
 _set_overrides() {
