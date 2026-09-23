@@ -38,7 +38,7 @@ source \
 # shellcheck disable=SC2034
 _global_variables() {
   resolve_date=""
-  target_command=""
+  target_text=""
   target_host=""
   target_network=""
   target_device=""
@@ -190,7 +190,7 @@ _show_config() {
     "${SOURCE_DATE_EPOCH}"
   _msg_info "${app_name} configuration"
   _msg_info "             Resolve date:   ${_resolve_date}"
-  _msg_info "              Target host:   ${target_host}"
+  _msg_info "              Target text:   ${target_text}"
   _msg_info "                   Device:   ${target_device}"
   _msg_info "                  Network:   ${target_network}"
   _msg_info "                  Gateway:   ${target_gateway}"
@@ -263,7 +263,7 @@ if (( $# < 2 )); then
   _usage \
     1
 fi
-target_command="${1}"
+target_text="${1}"
 target_host="${2}"
 if (( $# == 3 )); then
   target_address="${3}"
@@ -283,7 +283,7 @@ if [[ "${target_device}" == "" ]]; then
 fi
 _show_config
 app_opts=(
-  "${target_command}"
+  "${target_text}"
   "${target_host}"
   "${target_device}"
   "${target_network}"
