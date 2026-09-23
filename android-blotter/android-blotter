@@ -39,6 +39,7 @@ source \
 _global_variables() {
   resolve_date=""
   target_text=""
+  focus_get=""
   target_host=""
   target_network=""
   target_device=""
@@ -54,24 +55,32 @@ _global_variables() {
 
 _requirements() {
   _check_cmd \
+    "echo" \
+    "coreutils"
+}
+
+_focus_get_requirements() {
+  _check_cmd \
     "activity-launch" \
     "android-activity-utils"
 }
 
 _android_blotter() {
   local \
-    _command="${1}" \
-    _target_host="${2}" \
+    _target_text="${1}" \
+    _focus_get="${2}" \
     _target_device="${3}" \
     _target_network="${4}" \
     _target_gateway="${5}" \
     _target_address="${6}" \
     _global_setting="${7}" \
     _args=()
-  _focused_activity="$(
-    activity-focused)"
-  echo \
-    "${_focused_activity}"
+  if [[ "${_focus_get}" == "y" ]]; then
+    _focused_activity="$(
+      activity-focused)"
+    echo \
+      "${_focused_activity}"
+  fi
   # if [[ "${_command}" == "get" ]]; then
   #   _args=(
   #     "${_target_host}"
@@ -91,6 +100,12 @@ _android_blotter() {
   #   "${_args[@]}"
 }
 
+_focus_get_check() {
+  if [[ "${focus_get}" == "y" ]]; then
+    _focus_get_requirements
+  fi
+}
+
 _set_overrides() {
   if [[ -v override_quiet ]]; then
     quiet="${override_quiet}"
@@ -107,9 +122,10 @@ _set_overrides() {
     "date" \
     "$(_get_date_human)"
   _set_override \
-    "target" \
-    "network" \
-    "_get_network"
+    "focus" \
+    "get" \
+    "n"
+  _focus_get_check
   _set_override \
     "target" \
     "device" \
@@ -144,8 +160,9 @@ usage:
     <text>
 
   options:
-     -d <device>          Specify network device
-                          Default: '${target_device}'
+     -f                   If the blotter window is not
+                          on focus, switch to it.
+                          Default: '${focus_get}'
      -n <ssid_bsid>       Specify wireless network ssid
                           Default: '${target_network}'
      -g                   Specify host is the gateway
@@ -190,7 +207,7 @@ _show_config() {
   _msg_info "${app_name} configuration"
   _msg_info "             Resolve date:   ${_resolve_date}"
   _msg_info "              Target text:   ${target_text}"
-  _msg_info "                   Device:   ${target_device}"
+  _msg_info "                Get focus:   ${focus_get}"
   _msg_info "                  Network:   ${target_network}"
   _msg_info "                  Gateway:   ${target_gateway}"
   _msg_info "                   Global:   ${global_setting}"
@@ -204,12 +221,12 @@ _config_user_init \
 # shellcheck disable=SC2034
 while \
   getopts \
-    'd:n:gGcvh?' \
+    'fn:gGcvh?' \
     arg; do
   case \
     "${arg}" in
-    d)
-      override_target_device="${OPTARG}" ;;
+    f)
+      override_focus_get="y" ;;
     n)
       override_target_network="${OPTARG}" ;;
     g)
@@ -283,7 +300,7 @@ fi
 _show_config
 app_opts=(
   "${target_text}"
-  "${target_host}"
+  "${focus_get}"
   "${target_device}"
   "${target_network}"
   "${target_gateway}"
