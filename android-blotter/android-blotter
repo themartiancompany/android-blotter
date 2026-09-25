@@ -80,6 +80,7 @@ _android_blotter() {
       activity-focused)"
     echo \
       "${_focused_activity}"
+
   fi
   # if [[ "${_command}" == "get" ]]; then
   #   _args=(
